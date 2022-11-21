@@ -1,5 +1,12 @@
 
+'use strict';
+
 const APARTMENTS_COUNT = 10;
+
+const LONGITUDE_MIN = 35.65000;
+const LONGITUDE_MAX = 35.70000;
+const LATITUDE_MIN = 139.70000;
+const LATITUDE_MAX = 139.80000;
 
 const TITLES = [
   'Уютное гнездышко для молодоженов',
@@ -48,46 +55,37 @@ const PHOTOS = [
  * Функция получает два числа для диапазона: мин и макс
  * @param  {number} min начальное значение диапазона (больше или равно нулю)
  * @param  {number} max конечное значение диапазона (больше нуля)
- * @returns {number} рандомное число из заданного диапазона
+ * @returns {number | NaN} рандомное число из заданного диапазона
  */
-const getRandom = function(min, max) {
+const getRandom = (min, max) => {
   if(min >= 0 && max > 0 && max !== min && max > min) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   return NaN;
 }
 
-getRandom(1, 10);
-
-// Функция получения рандомных координат
 /**
  * Функция получает числа для диапазона мин макс и количество знаков после запятой
  * @param {number} min начальное значение диапазона (больше или равно нулю)
  * @param {number} max конечное значение диапазона (больше нуля)
  * @param {number} decimalPlace количество знаков после запятой (по умолчанию 5)
- * @returns {number} случайное число с указанным количеством знаков после запятой
+ * @returns {number | NaN} случайное число с указанным количеством знаков после запятой
  */
-const getRandomCoordinates = function(min, max, decimalPlace = 5) {
+const getRandomCoordinates = (min, max, decimalPlace = 5) => {
   if(min >= 0 && max > 0 && max !== min && max > min && decimalPlace > 0 && decimalPlace < 20) {
     return +((Math.random() * (max - min)) + min).toFixed(decimalPlace.toFixed());
   }
   return NaN;
 }
 
-getRandomCoordinates(5, 8);
-
-const notes = ['до', 'ре', 'ми', 'фа', 'соль', 'ля', 'си' ];
-
 /**
  * Функция получает массив
  * @param  {array} array
  * @returns {element} случайный элемент массива
  */
-const getRandomArrayElement = function(array) {
+const getRandomArrayElement = (array) => {
   return array[Math.floor(Math.random() * (array.length))];
 }
-
-getRandomArrayElement(notes);
 
 /**
  * Функция перемешивает элементы массива
@@ -109,14 +107,20 @@ const shuffle = (array) => {
 
 /**
  * Функция получает массив и возвращает массив случайной длины от исходного массива
- * @param {*} array
+ * @param {array} array
  * @returns {array} массив случайной длины (не больше исходного)
  */
 const getRandomLengthArray = (array) => {
   return array.slice(0, getRandom(1, array.length));
 }
 
+const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
+const latitude = getRandomCoordinates(LATITUDE_MIN, LATITUDE_MAX);
 
+/**
+ * Функция возвращает объект, в котором рандомно генерируется описание объявления по сдаче жилья в аренду
+ * @returns {object}
+ */
 const createApartmentsDescriptions = () => {
   return {
     author: {
@@ -124,7 +128,7 @@ const createApartmentsDescriptions = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${getRandomCoordinates(35.65, 35.70)}, ${getRandomCoordinates(139.70, 139.80)}`,
+      address: `${longitude}, ${latitude}`,
       price: getRandom(1000, 100000),
       type: getRandomArrayElement(TYPES_OF_BUILDINGS),
       rooms: getRandom(1, 10),
@@ -136,8 +140,8 @@ const createApartmentsDescriptions = () => {
       photos: getRandomLengthArray(shuffle(PHOTOS)),
     },
     location: {
-      x: getRandomCoordinates(35.65, 35.70),
-      y: getRandomCoordinates(139.70, 139.80),
+      x: longitude,
+      y: latitude,
     },
   };
 };
