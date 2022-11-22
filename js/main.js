@@ -8,6 +8,26 @@ const LONGITUDE_MAX = 35.70000;
 const LATITUDE_MIN = 139.70000;
 const LATITUDE_MAX = 139.80000;
 
+const Price = {
+  MIN: 1000,
+  MAX: 100000,
+};
+
+const RoomsAmount = {
+  MIN: 1,
+  MAX: 10,
+};
+
+const Guests = {
+  MIN: 1,
+  MAX: 10,
+};
+
+const Users = {
+  MIN: 1,
+  MAX: 10,
+};
+
 const TITLES = [
   'Уютное гнездышко для молодоженов',
   'Маленькая квартирка рядом с парком',
@@ -114,25 +134,25 @@ const getRandomLengthArray = (array) => {
   return array.slice(0, getRandom(1, array.length));
 }
 
-const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
-const latitude = getRandomCoordinates(LATITUDE_MIN, LATITUDE_MAX);
-
 /**
  * Функция возвращает объект, в котором рандомно генерируется описание объявления по сдаче жилья в аренду
  * @returns {object}
  */
 const createApartmentsDescriptions = () => {
+  const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
+  const latitude = getRandomCoordinates(LATITUDE_MIN, LATITUDE_MAX);
+
   return {
     author: {
-      avatar: `img/avatars/user${String(getRandom(1, 10)).padStart(2,'0')}.png`,
+      avatar: `img/avatars/user${String(getRandom(Users.MIN, Users.MAX)).padStart(2,'0')}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${longitude}, ${latitude}`,
-      price: getRandom(1000, 100000),
+      price: getRandom(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES_OF_BUILDINGS),
-      rooms: getRandom(1, 10),
-      guests: getRandom(1, 10),
+      rooms: getRandom(RoomsAmount.MIN, RoomsAmount.MAX),
+      guests: getRandom(Guests.MIN, Guests.MAX),
       checkin: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
       checkout: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
       features: getRandomLengthArray(shuffle(FEATURES)),
