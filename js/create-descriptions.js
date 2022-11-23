@@ -77,7 +77,7 @@ const PHOTOS = [
  * Функция возвращает объект, в котором рандомно генерируется описание объявления по сдаче жилья в аренду
  * @returns {object}
  */
-const createApartmentsDescriptions = () => {
+const createDescription = () => {
   const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
   const latitude = getRandomCoordinates(LATITUDE_MIN, LATITUDE_MAX);
 
@@ -105,8 +105,8 @@ const createApartmentsDescriptions = () => {
   };
 };
 
-const apartmentsDescriptions = (count = APARTMENTS_COUNT) => {
-  return new Array(count).fill(null).map(createApartmentsDescriptions);
+const createDescriptions = (count = APARTMENTS_COUNT) => {
+  return new Array(count).fill(null).map(createDescription);
 };
 
-export {apartmentsDescriptions};
+export {createDescriptions};
