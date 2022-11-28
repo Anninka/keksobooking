@@ -25,7 +25,7 @@ const Guests = {
 
 const Users = {
   MIN: 1,
-  MAX: 10,
+  MAX: 8,
 };
 
 const TITLES = [
@@ -49,12 +49,12 @@ const CHECKIN_CHECKOUT_TIMES = [
   '14:00',
 ];
 
-const TYPES_OF_BUILDINGS = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-];
+const TYPES_OF_BUILDINGS = {
+  palace: 'дворец',
+  flat: 'квартира',
+  house: 'дом',
+  bungalow: 'бунгало',
+};
 
 const FEATURES = [
   'wifi',
@@ -89,7 +89,7 @@ const createDescription = () => {
       title: getRandomArrayElement(TITLES),
       address: `${longitude}, ${latitude}`,
       price: getRandom(Price.MIN, Price.MAX),
-      type: getRandomArrayElement(TYPES_OF_BUILDINGS),
+      type: getRandomArrayElement(Object.values(TYPES_OF_BUILDINGS)),
       rooms: getRandom(RoomsAmount.MIN, RoomsAmount.MAX),
       guests: getRandom(Guests.MIN, Guests.MAX),
       checkin: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),

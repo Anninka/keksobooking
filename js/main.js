@@ -1,4 +1,2 @@
 
-import {createDescriptions} from './apartments-descriptions.js';
-
-createDescriptions();
+import './cards.js'
