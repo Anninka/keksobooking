@@ -80,8 +80,8 @@ const createPopupPhotos = (address) => {
 };
 
 /**
- * Функция создаёт карточки объявлений
- * @returns HTML карточки объявлений
+ * Функция создаёт карточки объявлений для вставки в HTML
+ * @returns {HTMLElement} HTML элемент карточек объявлений
  */
 const createUserCards = () => {
   const cardTemplate = document.querySelector('#card').content;
@@ -110,6 +110,7 @@ const createUserCards = () => {
 
 /**
  * Функция отрисовывает одну карточку
+ * @returns {void}
  */
 const showUserCards = () => {
   const cardContainer = document.querySelector('.map__canvas');
