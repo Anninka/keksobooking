@@ -25,7 +25,7 @@ const Guests = {
 
 const Users = {
   MIN: 1,
-  MAX: 10,
+  MAX: 8,
 };
 
 const TITLES = [
@@ -78,8 +78,8 @@ const PHOTOS = [
  * @returns {object}
  */
 const createDescription = () => {
-  const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
   const latitude = getRandomCoordinates(LATITUDE_MIN, LATITUDE_MAX);
+  const longitude = getRandomCoordinates(LONGITUDE_MIN, LONGITUDE_MAX);
 
   return {
     author: {
@@ -87,7 +87,7 @@ const createDescription = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${longitude}, ${latitude}`,
+      address: `${latitude}, ${longitude}`,
       price: getRandom(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES_OF_BUILDINGS),
       rooms: getRandom(RoomsAmount.MIN, RoomsAmount.MAX),
@@ -99,8 +99,8 @@ const createDescription = () => {
       photos: getRandomLengthArray(shuffle(PHOTOS)),
     },
     location: {
-      x: longitude,
-      y: latitude,
+      x: latitude,
+      y: longitude,
     },
   };
 };
