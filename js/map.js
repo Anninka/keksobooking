@@ -1,5 +1,4 @@
 
-import * as L from '../leaflet/leaflet-src.esm.js';
 import { getInactiveState, getActiveState } from './page-state.js';
 import { createCoordinates, createUserCards } from './cards.js';
 
