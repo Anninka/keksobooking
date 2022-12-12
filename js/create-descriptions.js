@@ -1,5 +1,5 @@
 
-import {getRandom, getRandomCoordinates, getRandomArrayElement, shuffle, getRandomLengthArray} from './util.js';
+import { getRandom, getRandomCoordinates, getRandomArrayElement, shuffle, getRandomLengthArray } from './util.js';
 
 const APARTMENTS_COUNT = 10;
 
@@ -87,7 +87,7 @@ const createDescription = () => {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `${latitude}, ${longitude}`,
+      address: `${longitude}, ${latitude}`,
       price: getRandom(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES_OF_BUILDINGS),
       rooms: getRandom(RoomsAmount.MIN, RoomsAmount.MAX),
@@ -109,4 +109,4 @@ const createDescriptions = (count = APARTMENTS_COUNT) => {
   return new Array(count).fill(null).map(createDescription);
 };
 
-export {createDescriptions};
+export { createDescriptions };

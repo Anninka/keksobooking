@@ -1,5 +1,5 @@
 
-import {createDescriptions} from './create-descriptions.js';
+import { createDescriptions } from './create-descriptions.js';
 
 const RUBLE_CURRENCY = '\u20BD';
 
@@ -21,6 +21,8 @@ const GUEST_WORDS = [
   'гостя',
   'гостей',
 ];
+
+const userCards = createDescriptions();
 
 /**
  * Функция вставляет верное написание слова из массива
@@ -79,6 +81,8 @@ const createPopupPhotos = (address) => {
   return popupPhotoDiv;
 };
 
+
+
 /**
  * Функция создаёт карточки объявлений для вставки в HTML
  * @returns {HTMLElement} HTML элемент карточек объявлений
@@ -86,7 +90,6 @@ const createPopupPhotos = (address) => {
 const createUserCards = () => {
   const cardTemplate = document.querySelector('#card').content;
   const newCardTemplate = cardTemplate.querySelector('.popup');
-  const userCards = createDescriptions();
   const cardContainerFragment = document.createDocumentFragment();
 
   userCards.forEach((description) => {
@@ -105,16 +108,26 @@ const createUserCards = () => {
 
     cardContainerFragment.appendChild(userCard);
   });
+
   return cardContainerFragment;
 };
 
 /**
- * Функция отрисовывает одну карточку
- * @returns {void}
+ *
  */
-const showUserCards = () => {
-  const cardContainer = document.querySelector('.map__canvas');
-  cardContainer.appendChild(createUserCards().firstChild);
-};
+const createCoordinates = () => {
+  const coordinates = [];
 
-showUserCards();
+  function coordinate(lat, lng) {
+    this.lat = lat;
+    this.lng = lng;
+  }
+
+  userCards.forEach((description) => {
+    coordinates.push(new coordinate(description.location.y, description.location.x))
+  });
+
+  return coordinates;
+}
+
+export {createCoordinates, createUserCards};
