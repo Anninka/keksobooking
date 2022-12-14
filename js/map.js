@@ -1,6 +1,7 @@
 
 import { getInactiveState, getActiveState } from './page-state.js';
-import { createCoordinates, createUserCards } from './cards.js';
+import { createUserCard } from './cards.js';
+import { createDescriptions } from './create-descriptions.js';
 
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
@@ -12,7 +13,7 @@ const MAP_CENTER = {
 
 const ZOOM = 13;
 
-const coordinates = createCoordinates();
+const descriptions = createDescriptions();
 
 getInactiveState();
 
@@ -50,32 +51,26 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-coordinates.forEach((coordinate, index) => {
-  const marker = L.marker({
-    lat: coordinate.lat,
-    lng: coordinate.lng,
-  },
-  {
-    icon: pinIcon,
-  });
+descriptions.forEach((description) => {
+  const marker = L.marker(
+    {
+      lat: description.location.y,
+      lng: description.location.x,
+    },
+    {
+      icon: pinIcon,
+    },
+  );
 
   marker
     .addTo(map)
     .bindPopup(
-      createUserCards().childNodes[index],
+      createUserCard(description),
     );
 });
-
-
 
 address.value = `${mainMarker.getLatLng().lat}, ${mainMarker.getLatLng().lng}`;
 
 mainMarker.on('moveend', () => {
   address.value = `${mainMarker.getLatLng().lat.toFixed(5)}, ${mainMarker.getLatLng().lng.toFixed(5)}`;
 });
-
-
-
-// const pinIcon = L.icon({
-
-// });

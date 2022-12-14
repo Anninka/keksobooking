@@ -1,6 +1,4 @@
 
-import { createDescriptions } from './create-descriptions.js';
-
 const RUBLE_CURRENCY = '\u20BD';
 
 const TYPES_OF_BUILDINGS = {
@@ -21,8 +19,6 @@ const GUEST_WORDS = [
   'гостя',
   'гостей',
 ];
-
-const userCards = createDescriptions();
 
 /**
  * Функция вставляет верное написание слова из массива
@@ -81,53 +77,31 @@ const createPopupPhotos = (address) => {
   return popupPhotoDiv;
 };
 
-
-
 /**
- * Функция создаёт карточки объявлений для вставки в HTML
- * @returns {HTMLElement} HTML элемент карточек объявлений
+ * Функция создаёт карточку объявления для вставки в HTML
+ * @returns {HTMLElement} HTML элемент карточки объявления
  */
-const createUserCards = () => {
+const createUserCard = (description) => {
   const cardTemplate = document.querySelector('#card').content;
   const newCardTemplate = cardTemplate.querySelector('.popup');
-  const cardContainerFragment = document.createDocumentFragment();
+  const userCard = newCardTemplate.cloneNode(true);
 
-  userCards.forEach((description) => {
-    const userCard = newCardTemplate.cloneNode(true);
-
-    userCard.querySelector('.popup__avatar').src = description.author.avatar;
-    userCard.querySelector('.popup__title').textContent = description.offer.title;
-    userCard.querySelector('.popup__text--address').textContent = description.offer.address;
-    userCard.querySelector('.popup__text--price').textContent = `${description.offer.price} ${RUBLE_CURRENCY}/ночь`;
-    userCard.querySelector('.popup__type').textContent = TYPES_OF_BUILDINGS[description.offer.type];
-    userCard.querySelector('.popup__text--capacity').textContent = `${description.offer.rooms} ${getCorrectWord(description.offer.rooms, ROOM_WORDS)} для ${description.offer.guests} ${getCorrectWord(description.offer.guests, GUEST_WORDS)}`;
-    userCard.querySelector('.popup__text--time').textContent = `Заезд после ${description.offer.checkin}, выезд до ${description.offer.checkout}`;
-    userCard.replaceChild(createFeaturesList(description.offer.features), userCard.querySelector('.popup__features'));
-    userCard.querySelector('.popup__description').textContent = description.offer.description;
-    userCard.replaceChild(createPopupPhotos(description.offer.photos), userCard.querySelector('.popup__photos'));
-
-    cardContainerFragment.appendChild(userCard);
+  userCard.querySelector('.popup__avatar').src = description.author.avatar;
+  userCard.querySelector('.popup__title').textContent = description.offer.title;
+  userCard.querySelector('.popup__text--address').textContent = description.offer.address;
+  userCard.querySelector('.popup__text--price').textContent = `${description.offer.price} ${RUBLE_CURRENCY}/ночь`;
+  userCard.querySelector('.popup__type').textContent = TYPES_OF_BUILDINGS[description.offer.type];
+  userCard.querySelector('.popup__text--capacity').textContent = `${description.offer.rooms} ${getCorrectWord(description.offer.rooms, ROOM_WORDS)} для ${description.offer.guests} ${getCorrectWord(description.offer.guests, GUEST_WORDS)}`;
+  userCard.querySelector('.popup__text--time').textContent = `Заезд после ${description.offer.checkin}, выезд до ${description.offer.checkout}`;
+  userCard.replaceChild(createFeaturesList(description.offer.features), userCard.querySelector('.popup__features'));
+  userCard.querySelector('.popup__description').textContent = description.offer.description;
+  userCard.replaceChild(createPopupPhotos(description.offer.photos), userCard.querySelector('.popup__photos'));
+  userCard.childNodes.forEach((item, i) => {
+    if ((item.textContent === '' && item.childNodes.length === 0 && item.src === undefined) || item.src === '') {
+      userCard.childNodes[i].classList.add('hidden');
+    }
   });
-
-  return cardContainerFragment;
+  return userCard;
 };
 
-/**
- *
- */
-const createCoordinates = () => {
-  const coordinates = [];
-
-  function coordinate(lat, lng) {
-    this.lat = lat;
-    this.lng = lng;
-  }
-
-  userCards.forEach((description) => {
-    coordinates.push(new coordinate(description.location.y, description.location.x))
-  });
-
-  return coordinates;
-}
-
-export {createCoordinates, createUserCards};
+export { createUserCard };
