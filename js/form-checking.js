@@ -1,11 +1,11 @@
 
 // const MAX_PRICE = 100000;
 const MIN_PRICE = {
-  bungalow: 'от 0',
-  flat: 'от 1000',
-  hotel: 'от 3000',
-  house: 'от 5000',
-  palace: 'от 10000',
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
 };
 
 const form = document.querySelector('.ad-form');
@@ -22,7 +22,7 @@ const guests = form.querySelector('#capacity');
  * @return {void}
  */
 const onCheckPrice = () => {
-  price.placeholder = MIN_PRICE[type.value];
+  price.placeholder = `от ${MIN_PRICE[type.value]}`;
   price.min = MIN_PRICE[type.value];
 }
 

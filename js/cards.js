@@ -79,6 +79,7 @@ const createPopupPhotos = (address) => {
 
 /**
  * Функция создаёт карточку объявления для вставки в HTML
+ * @param {object} description объект с рандомными данными для объявления
  * @returns {HTMLElement} HTML элемент карточки объявления
  */
 const createUserCard = (description) => {

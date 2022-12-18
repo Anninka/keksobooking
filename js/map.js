@@ -6,7 +6,7 @@ import { createDescriptions } from './create-descriptions.js';
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 
-const MAP_CENTER = {
+const COORDINATES_OF_CENTER = {
   lat: 35.68173,
   lng: 139.75393,
 };
@@ -20,7 +20,7 @@ getInactiveState();
 map.on('load', () => {
   getActiveState();
 })
-  .setView(MAP_CENTER, ZOOM);
+  .setView(COORDINATES_OF_CENTER, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -42,7 +42,7 @@ const pinIcon = L.icon({
 });
 
 const mainMarker = L.marker(
-  MAP_CENTER,
+  COORDINATES_OF_CENTER,
   {
     draggable: true,
     icon: mainPinIcon,
