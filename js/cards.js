@@ -38,46 +38,6 @@ const getCorrectWord = (item, words) => {
 };
 
 /**
- * Функция создает массив с HTML элементами features готовыми для вставки в разметку
- * @param {array} features массив
- * @returns список с features
- */
-const createFeaturesList = (features) => {
-  const featureList = document.createElement('ul');
-  featureList.classList.add('popup__features');
-
-  features.forEach((feature) => {
-    const popupFeature = document.createElement('li');
-    const featureClass = `popup__feature--${feature}`;
-    popupFeature.classList.add('popup__feature');
-    popupFeature.classList.add(featureClass);
-    featureList.appendChild(popupFeature);
-  });
-  return featureList;
-};
-
-/**
- * Функция создает HTML элемент с photos готовыми для вставки в разметку.
- * @param {array} address массив с адресами фото
- * @returns {HTMLElement} HTML элемент с photos
- */
-const createPopupPhotos = (address) => {
-  const popupPhotoDiv = document.createElement('div');
-  popupPhotoDiv.classList.add('popup__photos');
-
-  address.forEach((photo)=>{
-    const popupPhoto = document.createElement('img');
-    popupPhoto.classList.add('popup__photo');
-    popupPhoto.width = 45;
-    popupPhoto.height = 40;
-    popupPhoto.alt = 'Фотография жилья';
-    popupPhoto.src = photo;
-    popupPhotoDiv.appendChild(popupPhoto);
-  });
-  return popupPhotoDiv;
-};
-
-/**
  * Функция создаёт карточку объявления для вставки в HTML
  * @param {object} description объект с рандомными данными для объявления
  * @returns {HTMLElement} HTML элемент карточки объявления
@@ -94,14 +54,37 @@ const createUserCard = (description) => {
   userCard.querySelector('.popup__type').textContent = TYPES_OF_BUILDINGS[description.offer.type];
   userCard.querySelector('.popup__text--capacity').textContent = `${description.offer.rooms} ${getCorrectWord(description.offer.rooms, ROOM_WORDS)} для ${description.offer.guests} ${getCorrectWord(description.offer.guests, GUEST_WORDS)}`;
   userCard.querySelector('.popup__text--time').textContent = `Заезд после ${description.offer.checkin}, выезд до ${description.offer.checkout}`;
-  userCard.replaceChild(createFeaturesList(description.offer.features), userCard.querySelector('.popup__features'));
   userCard.querySelector('.popup__description').textContent = description.offer.description;
-  userCard.replaceChild(createPopupPhotos(description.offer.photos), userCard.querySelector('.popup__photos'));
-  userCard.childNodes.forEach((item, i) => {
-    if ((item.textContent === '' && item.childNodes.length === 0 && item.src === undefined) || item.src === '') {
-      userCard.childNodes[i].classList.add('hidden');
-    }
-  });
+
+  if (description.offer.features) {
+    const featuresList = userCard.querySelectorAll('.popup__feature');
+
+    featuresList.forEach((featuresItem) => {
+      const isNecessary = description.offer.features.some(
+        (feature) => featuresItem.classList.contains(`popup__feature--${feature}`),
+      );
+      if (!isNecessary) {
+        featuresItem.remove();
+      }
+    });
+  } else {
+    userCard.querySelector('.popup__features').remove();
+  }
+
+  if (description.offer.photos) {
+    const photosContainer = userCard.querySelector('.popup__photos');
+    const photoItem = userCard.querySelector('.popup__photo');
+    photosContainer.removeChild(photoItem);
+
+    description.offer.photos.forEach((photo) => {
+      const item = photoItem.cloneNode(true);
+      item.src = photo;
+      photosContainer.appendChild(item);
+    });
+  } else {
+    userCard.querySelector('.popup__photos').remove();
+  }
+
   return userCard;
 };
 

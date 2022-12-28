@@ -1,19 +1,17 @@
 
 import { getInactiveState, getActiveState } from './page-state.js';
 import { createUserCard } from './cards.js';
-import { createDescriptions } from './create-descriptions.js';
+import { getData } from './api.js';
 
 const map = L.map('map-canvas');
 const address = document.querySelector('#address');
 
 const COORDINATES_OF_CENTER = {
-  lat: 35.68173,
-  lng: 139.75393,
+  lat: 35.67333,
+  lng: 139.75056,
 };
 
 const ZOOM = 13;
-
-const descriptions = createDescriptions();
 
 getInactiveState();
 
@@ -51,26 +49,39 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-descriptions.forEach((description) => {
-  const marker = L.marker(
-    {
-      lat: description.location.y,
-      lng: description.location.x,
-    },
-    {
-      icon: pinIcon,
-    },
-  );
-
-  marker
-    .addTo(map)
-    .bindPopup(
-      createUserCard(description),
+const showPins = (adList) => {
+  adList.forEach((adItem) => {
+    const marker = L.marker(
+      {
+        lat: adItem.location.lat,
+        lng: adItem.location.lng,
+      },
+      {
+        icon: pinIcon,
+      },
     );
-});
+
+    marker
+      .addTo(map)
+      .bindPopup(
+        createUserCard(adItem),
+      );
+  });
+}
+
+getData(showPins);
 
 address.value = `${mainMarker.getLatLng().lat}, ${mainMarker.getLatLng().lng}`;
 
 mainMarker.on('moveend', () => {
   address.value = `${mainMarker.getLatLng().lat.toFixed(5)}, ${mainMarker.getLatLng().lng.toFixed(5)}`;
 });
+
+const resetMap = () => {
+  mainMarker.setLatLng(COORDINATES_OF_CENTER);
+  address.value = `${COORDINATES_OF_CENTER.lat}, ${COORDINATES_OF_CENTER.lng}`;
+  map.setView(COORDINATES_OF_CENTER, ZOOM);
+  map.closePopup();
+}
+
+export { resetMap };
