@@ -132,7 +132,6 @@ successMessage.addEventListener('click', () => {
 const errorTemplate = document.querySelector('#error').content;
 const newError = errorTemplate.querySelector('.error');
 const errorMessage = newError.cloneNode(true);
-const errorButton = errorMessage.querySelector('.error__button')
 
 /**
  * Функция показывает сообщение об ошибке отправки формы
