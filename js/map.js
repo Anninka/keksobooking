@@ -11,6 +11,8 @@ const COORDINATES_OF_CENTER = {
   lng: 139.75056,
 };
 
+const NUMBER_OF_ADS = 10;
+
 const ZOOM = 13;
 
 getInactiveState();
@@ -69,7 +71,7 @@ const showPins = (adList) => {
   });
 }
 
-getData(showPins);
+getData((ads) => showPins(ads.slice(0, NUMBER_OF_ADS)));
 
 address.value = `${mainMarker.getLatLng().lat}, ${mainMarker.getLatLng().lng}`;
 
