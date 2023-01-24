@@ -2,6 +2,7 @@
 import { sendData } from './api.js';
 import { resetMap } from './map.js';
 import { isEscEvent } from './util.js';
+import { clearImages } from './adding-images.js';
 
 const MIN_PRICE = {
   bungalow: '0',
@@ -31,6 +32,7 @@ const resetForm = () => {
   form.reset();
   resetMap();
   filter.reset();
+  clearImages();
 }
 
 resetButton.addEventListener('click', (evt) => {
@@ -80,6 +82,10 @@ const onCheckGuestsNumber = () => {
 rooms.addEventListener('change', onCheckGuestsNumber);
 guests.addEventListener('change', onCheckGuestsNumber);
 
+/**
+ * Функция показывает сообщение об успешном отправке формы при успехе, и выводит ошибку, если форма не отправлена
+ * @param {function} onSuccess функция, вызываемая при успешной отправке формы
+ */
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -141,6 +147,9 @@ const showErrorMessage = () => {
   document.addEventListener('keydown', onEscKeydownError);
 }
 
+/**
+ * Функция закрывает сообщение об ошибке по нажатию кнопки Esc
+ */
 const closeErrorMessage = () => {
   body.removeChild(errorMessage);
   document.removeEventListener('keydown', onEscKeydownError);
@@ -161,4 +170,4 @@ errorMessage.addEventListener('click', () => {
   closeErrorMessage();
 });
 
-export {setUserFormSubmit, showSuccessMessage };
+setUserFormSubmit(showSuccessMessage);

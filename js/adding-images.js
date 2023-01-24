@@ -34,16 +34,17 @@ photoChooser.addEventListener('change', () => {
   });
 
   if (matches) {
-    const photo = document.createElement('img');
-    photo.width = '70';
-    photo.height = '70';
 
     const reader = new FileReader();
 
     reader.addEventListener('load', () => {
-      photo.src = reader.result;
+      let photo = photoPreview.querySelector('img');
 
-      if (!photoPreview.childNodes.length) {
+      if (!photo) {
+        photo = document.createElement('img');
+        photo.width = '70';
+        photo.height = '70';
+        photo.src = reader.result;
         photoPreview.append(photo);
       } else {
         photo.src = reader.result;
@@ -52,4 +53,14 @@ photoChooser.addEventListener('change', () => {
 
     reader.readAsDataURL(file);
   }
-})
+});
+
+const clearImages = () => {
+  avatarPreview.src = 'img/muffin-grey.svg';
+
+  if (photoPreview.querySelector('img')) {
+    photoPreview.querySelector('img').remove();
+  }
+}
+
+export { clearImages };
