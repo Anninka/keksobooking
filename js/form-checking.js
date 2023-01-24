@@ -24,6 +24,14 @@ const rooms = form.querySelector('#room_number');
 const guests = form.querySelector('#capacity');
 const resetButton = form.querySelector('.ad-form__reset');
 
+const successTemplate = document.querySelector('#success').content;
+const newMessage = successTemplate.querySelector('.success');
+const successMessage = newMessage.cloneNode(true);
+
+const errorTemplate = document.querySelector('#error').content;
+const newError = errorTemplate.querySelector('.error');
+const errorMessage = newError.cloneNode(true);
+
 /**
  * Функция возвращает форму в изначальное состояние
  * @return {void}
@@ -98,11 +106,6 @@ const setUserFormSubmit = (onSuccess) => {
   });
 }
 
-
-const successTemplate = document.querySelector('#success').content;
-const newMessage = successTemplate.querySelector('.success');
-const successMessage = newMessage.cloneNode(true);
-
 /**
  * Функция показывает сообщение об успешной отправке формы
  */
@@ -111,6 +114,8 @@ const showSuccessMessage = () => {
   resetForm();
   document.addEventListener('keydown', onEscKeydownSucces);
 }
+
+setUserFormSubmit(showSuccessMessage);
 
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
@@ -134,10 +139,6 @@ const closeSuccessMessage = () => {
 successMessage.addEventListener('click', () => {
   closeSuccessMessage();
 });
-
-const errorTemplate = document.querySelector('#error').content;
-const newError = errorTemplate.querySelector('.error');
-const errorMessage = newError.cloneNode(true);
 
 /**
  * Функция показывает сообщение об ошибке отправки формы
@@ -169,5 +170,3 @@ const onEscKeydownError = (evt) => {
 errorMessage.addEventListener('click', () => {
   closeErrorMessage();
 });
-
-setUserFormSubmit(showSuccessMessage);
