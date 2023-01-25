@@ -39,28 +39,28 @@ const getCorrectWord = (item, words) => {
 
 /**
  * Функция создаёт карточку объявления для вставки в HTML
- * @param {object} description объект с рандомными данными для объявления
+ * @param {object} ad объект с данными для объявления
  * @returns {HTMLElement} HTML элемент карточки объявления
  */
-const createUserCard = (description) => {
+const createUserCard = (ad) => {
   const cardTemplate = document.querySelector('#card').content;
   const newCardTemplate = cardTemplate.querySelector('.popup');
   const userCard = newCardTemplate.cloneNode(true);
 
-  userCard.querySelector('.popup__avatar').src = description.author.avatar;
-  userCard.querySelector('.popup__title').textContent = description.offer.title;
-  userCard.querySelector('.popup__text--address').textContent = description.offer.address;
-  userCard.querySelector('.popup__text--price').textContent = `${description.offer.price} ${RUBLE_CURRENCY}/ночь`;
-  userCard.querySelector('.popup__type').textContent = TYPES_OF_BUILDINGS[description.offer.type];
-  userCard.querySelector('.popup__text--capacity').textContent = `${description.offer.rooms} ${getCorrectWord(description.offer.rooms, ROOM_WORDS)} для ${description.offer.guests} ${getCorrectWord(description.offer.guests, GUEST_WORDS)}`;
-  userCard.querySelector('.popup__text--time').textContent = `Заезд после ${description.offer.checkin}, выезд до ${description.offer.checkout}`;
-  userCard.querySelector('.popup__description').textContent = description.offer.description;
+  userCard.querySelector('.popup__avatar').src = ad.author.avatar;
+  userCard.querySelector('.popup__title').textContent = ad.offer.title;
+  userCard.querySelector('.popup__text--address').textContent = ad.offer.address;
+  userCard.querySelector('.popup__text--price').textContent = `${ad.offer.price} ${RUBLE_CURRENCY}/ночь`;
+  userCard.querySelector('.popup__type').textContent = TYPES_OF_BUILDINGS[ad.offer.type];
+  userCard.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} ${getCorrectWord(ad.offer.rooms, ROOM_WORDS)} для ${ad.offer.guests} ${getCorrectWord(ad.offer.guests, GUEST_WORDS)}`;
+  userCard.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
+  userCard.querySelector('.popup__description').textContent = ad.offer.ad;
 
-  if (description.offer.features) {
+  if (ad.offer.features) {
     const featuresList = userCard.querySelectorAll('.popup__feature');
 
     featuresList.forEach((featuresItem) => {
-      const isNecessary = description.offer.features.some(
+      const isNecessary = ad.offer.features.some(
         (feature) => featuresItem.classList.contains(`popup__feature--${feature}`),
       );
       if (!isNecessary) {
@@ -71,12 +71,12 @@ const createUserCard = (description) => {
     userCard.querySelector('.popup__features').remove();
   }
 
-  if (description.offer.photos) {
+  if (ad.offer.photos) {
     const photosContainer = userCard.querySelector('.popup__photos');
     const photoItem = userCard.querySelector('.popup__photo');
     photosContainer.removeChild(photoItem);
 
-    description.offer.photos.forEach((photo) => {
+    ad.offer.photos.forEach((photo) => {
       const item = photoItem.cloneNode(true);
       item.src = photo;
       photosContainer.appendChild(item);

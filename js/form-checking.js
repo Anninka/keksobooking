@@ -2,6 +2,7 @@
 import { sendData } from './api.js';
 import { resetMap } from './map.js';
 import { isEscEvent } from './util.js';
+import { clearImages } from './adding-images.js';
 
 const MIN_PRICE = {
   bungalow: '0',
@@ -23,6 +24,14 @@ const rooms = form.querySelector('#room_number');
 const guests = form.querySelector('#capacity');
 const resetButton = form.querySelector('.ad-form__reset');
 
+const successTemplate = document.querySelector('#success').content;
+const newMessage = successTemplate.querySelector('.success');
+const successMessage = newMessage.cloneNode(true);
+
+const errorTemplate = document.querySelector('#error').content;
+const newError = errorTemplate.querySelector('.error');
+const errorMessage = newError.cloneNode(true);
+
 /**
  * Функция возвращает форму в изначальное состояние
  * @return {void}
@@ -31,6 +40,7 @@ const resetForm = () => {
   form.reset();
   resetMap();
   filter.reset();
+  clearImages();
 }
 
 resetButton.addEventListener('click', (evt) => {
@@ -80,6 +90,10 @@ const onCheckGuestsNumber = () => {
 rooms.addEventListener('change', onCheckGuestsNumber);
 guests.addEventListener('change', onCheckGuestsNumber);
 
+/**
+ * Функция показывает сообщение об успешном отправке формы при успехе, и выводит ошибку, если форма не отправлена
+ * @param {function} onSuccess функция, вызываемая при успешной отправке формы
+ */
 const setUserFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -92,11 +106,6 @@ const setUserFormSubmit = (onSuccess) => {
   });
 }
 
-
-const successTemplate = document.querySelector('#success').content;
-const newMessage = successTemplate.querySelector('.success');
-const successMessage = newMessage.cloneNode(true);
-
 /**
  * Функция показывает сообщение об успешной отправке формы
  */
@@ -105,6 +114,8 @@ const showSuccessMessage = () => {
   resetForm();
   document.addEventListener('keydown', onEscKeydownSucces);
 }
+
+setUserFormSubmit(showSuccessMessage);
 
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
@@ -129,10 +140,6 @@ successMessage.addEventListener('click', () => {
   closeSuccessMessage();
 });
 
-const errorTemplate = document.querySelector('#error').content;
-const newError = errorTemplate.querySelector('.error');
-const errorMessage = newError.cloneNode(true);
-
 /**
  * Функция показывает сообщение об ошибке отправки формы
  */
@@ -141,6 +148,9 @@ const showErrorMessage = () => {
   document.addEventListener('keydown', onEscKeydownError);
 }
 
+/**
+ * Функция закрывает сообщение об ошибке по нажатию кнопки Esc
+ */
 const closeErrorMessage = () => {
   body.removeChild(errorMessage);
   document.removeEventListener('keydown', onEscKeydownError);
@@ -160,5 +170,3 @@ const onEscKeydownError = (evt) => {
 errorMessage.addEventListener('click', () => {
   closeErrorMessage();
 });
-
-export {setUserFormSubmit, showSuccessMessage };
