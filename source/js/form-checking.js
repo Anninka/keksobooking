@@ -115,8 +115,6 @@ const showSuccessMessage = () => {
   document.addEventListener('keydown', onEscKeydownSucces);
 }
 
-setUserFormSubmit(showSuccessMessage);
-
 /**
  * Функция по щелчку клавиши Esc закрывает сообщение об успешной отправке формы
  * @param {evt} evt
@@ -170,3 +168,5 @@ const onEscKeydownError = (evt) => {
 errorMessage.addEventListener('click', () => {
   closeErrorMessage();
 });
+
+export { setUserFormSubmit }
