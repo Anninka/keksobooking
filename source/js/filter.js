@@ -38,21 +38,22 @@ const filterPrice = (ad) => {
   }
 };
 
-const filterFeatures = (ad) => {
-  const currentFeatures = Array.from(features.querySelectorAll('.map__checkbox:checked'))
-    .map((element) => element.value);
+const filterData = (data) => {
+  const checkedFeatures = features.querySelectorAll('.map__checkbox:checked');
 
-  if (ad.offer.features) {
-    return currentFeatures.every((feature) => ad.offer.features.includes(feature));
-  }
-  return currentFeatures.length === 0;
+  const filterFeatures = (ad) => {
+    if (ad.offer.features) {
+      return [ ... checkedFeatures].every((feature) => ad.offer.features.includes(feature.value));
+    }
+    return false;
+  };
+
+  return data.filter((ad) => filterType(ad)
+    && filterRooms(ad)
+    && filterGuests(ad)
+    && filterPrice(ad)
+    && filterFeatures(ad),
+  )
 };
-
-const filterData = (data) => data.filter((ad) => filterType(ad)
-  && filterRooms(ad)
-  && filterGuests(ad)
-  && filterPrice(ad)
-  && filterFeatures(ad),
-);
 
 export {filterData};
